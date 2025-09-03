@@ -1,0 +1,12 @@
+vs_demo_walmart:
+  outputs:
+    dev:
+      dbname: test
+      host: localhost
+      pass: root
+      port: 5433
+      schema: public
+      threads: 4
+      type: postgres
+      user: root
+  target: dev

@@ -1,0 +1,403 @@
+{
+  "metadata": {
+    "dbt_schema_version": "https://schemas.getdbt.com/dbt/catalog/v1.json",
+    "dbt_version": "1.9.0",
+    "generated_at": "2025-09-03T04:48:50.466548Z",
+    "invocation_id": "c3a945d9-ea23-48d3-89ef-26dcddb32353",
+    "env": {}
+  },
+  "nodes": {
+    "model.vs_demo_walmart.metricflow_time_spine": {
+      "metadata": {
+        "type": "BASE TABLE",
+        "schema": "public",
+        "name": "metricflow_time_spine",
+        "database": "test",
+        "comment": null,
+        "owner": "root"
+      },
+      "columns": {
+        "date_day": {
+          "type": "date",
+          "index": 1,
+          "name": "date_day",
+          "comment": null
+        }
+      },
+      "stats": {
+        "has_stats": {
+          "id": "has_stats",
+          "label": "Has Stats?",
+          "value": false,
+          "include": false,
+          "description": "Indicates whether there are statistics for this table"
+        }
+      },
+      "unique_id": "model.vs_demo_walmart.metricflow_time_spine"
+    },
+    "model.vs_demo_walmart.monthly_store_sales": {
+      "metadata": {
+        "type": "BASE TABLE",
+        "schema": "public",
+        "name": "monthly_store_sales",
+        "database": "test",
+        "comment": null,
+        "owner": "root"
+      },
+      "columns": {
+        "store": {
+          "type": "integer",
+          "index": 1,
+          "name": "store",
+          "comment": null
+        },
+        "sale_month": {
+          "type": "timestamp with time zone",
+          "index": 2,
+          "name": "sale_month",
+          "comment": null
+        },
+        "monthly_total_sales": {
+          "type": "numeric",
+          "index": 3,
+          "name": "monthly_total_sales",
+          "comment": null
+        },
+        "mom_growth_pct": {
+          "type": "numeric",
+          "index": 4,
+          "name": "mom_growth_pct",
+          "comment": null
+        }
+      },
+      "stats": {
+        "has_stats": {
+          "id": "has_stats",
+          "label": "Has Stats?",
+          "value": false,
+          "include": false,
+          "description": "Indicates whether there are statistics for this table"
+        }
+      },
+      "unique_id": "model.vs_demo_walmart.monthly_store_sales"
+    },
+    "model.vs_demo_walmart.rolling_3mo_avg_per_store": {
+      "metadata": {
+        "type": "VIEW",
+        "schema": "public",
+        "name": "rolling_3mo_avg_per_store",
+        "database": "test",
+        "comment": null,
+        "owner": "root"
+      },
+      "columns": {
+        "store": {
+          "type": "integer",
+          "index": 1,
+          "name": "store",
+          "comment": null
+        },
+        "sale_month": {
+          "type": "timestamp with time zone",
+          "index": 2,
+          "name": "sale_month",
+          "comment": null
+        },
+        "monthly_total_sales": {
+          "type": "double precision",
+          "index": 3,
+          "name": "monthly_total_sales",
+          "comment": null
+        },
+        "rolling_3m_avg": {
+          "type": "numeric",
+          "index": 4,
+          "name": "rolling_3m_avg",
+          "comment": null
+        }
+      },
+      "stats": {
+        "has_stats": {
+          "id": "has_stats",
+          "label": "Has Stats?",
+          "value": false,
+          "include": false,
+          "description": "Indicates whether there are statistics for this table"
+        }
+      },
+      "unique_id": "model.vs_demo_walmart.rolling_3mo_avg_per_store"
+    },
+    "model.vs_demo_walmart.store_contrib": {
+      "metadata": {
+        "type": "VIEW",
+        "schema": "public",
+        "name": "store_contrib",
+        "database": "test",
+        "comment": null,
+        "owner": "root"
+      },
+      "columns": {
+        "store": {
+          "type": "integer",
+          "index": 1,
+          "name": "store",
+          "comment": null
+        },
+        "sale_month": {
+          "type": "timestamp with time zone",
+          "index": 2,
+          "name": "sale_month",
+          "comment": null
+        },
+        "monthly_sales": {
+          "type": "double precision",
+          "index": 3,
+          "name": "monthly_sales",
+          "comment": null
+        },
+        "contribution_pct": {
+          "type": "numeric",
+          "index": 4,
+          "name": "contribution_pct",
+          "comment": null
+        }
+      },
+      "stats": {
+        "has_stats": {
+          "id": "has_stats",
+          "label": "Has Stats?",
+          "value": false,
+          "include": false,
+          "description": "Indicates whether there are statistics for this table"
+        }
+      },
+      "unique_id": "model.vs_demo_walmart.store_contrib"
+    },
+    "model.vs_demo_walmart.store_rank_mo_sales": {
+      "metadata": {
+        "type": "VIEW",
+        "schema": "public",
+        "name": "store_rank_mo_sales",
+        "database": "test",
+        "comment": null,
+        "owner": "root"
+      },
+      "columns": {
+        "store": {
+          "type": "integer",
+          "index": 1,
+          "name": "store",
+          "comment": null
+        },
+        "sale_month": {
+          "type": "date",
+          "index": 2,
+          "name": "sale_month",
+          "comment": null
+        },
+        "monthly_sales": {
+          "type": "double precision",
+          "index": 3,
+          "name": "monthly_sales",
+          "comment": null
+        },
+        "sales_rank": {
+          "type": "bigint",
+          "index": 4,
+          "name": "sales_rank",
+          "comment": null
+        }
+      },
+      "stats": {
+        "has_stats": {
+          "id": "has_stats",
+          "label": "Has Stats?",
+          "value": false,
+          "include": false,
+          "description": "Indicates whether there are statistics for this table"
+        }
+      },
+      "unique_id": "model.vs_demo_walmart.store_rank_mo_sales"
+    },
+    "model.vs_demo_walmart.trend_growth": {
+      "metadata": {
+        "type": "VIEW",
+        "schema": "public",
+        "name": "trend_growth",
+        "database": "test",
+        "comment": null,
+        "owner": "root"
+      },
+      "columns": {
+        "store": {
+          "type": "integer",
+          "index": 1,
+          "name": "store",
+          "comment": null
+        },
+        "sale_month": {
+          "type": "date",
+          "index": 2,
+          "name": "sale_month",
+          "comment": null
+        },
+        "monthly_total_sales": {
+          "type": "double precision",
+          "index": 3,
+          "name": "monthly_total_sales",
+          "comment": null
+        },
+        "mom_growth_pct": {
+          "type": "numeric",
+          "index": 4,
+          "name": "mom_growth_pct",
+          "comment": null
+        }
+      },
+      "stats": {
+        "has_stats": {
+          "id": "has_stats",
+          "label": "Has Stats?",
+          "value": false,
+          "include": false,
+          "description": "Indicates whether there are statistics for this table"
+        }
+      },
+      "unique_id": "model.vs_demo_walmart.trend_growth"
+    },
+    "model.vs_demo_walmart.year_over_year_growth": {
+      "metadata": {
+        "type": "VIEW",
+        "schema": "public",
+        "name": "year_over_year_growth",
+        "database": "test",
+        "comment": null,
+        "owner": "root"
+      },
+      "columns": {
+        "store": {
+          "type": "integer",
+          "index": 1,
+          "name": "store",
+          "comment": null
+        },
+        "sale_month": {
+          "type": "timestamp with time zone",
+          "index": 2,
+          "name": "sale_month",
+          "comment": null
+        },
+        "monthly_total_sales": {
+          "type": "double precision",
+          "index": 3,
+          "name": "monthly_total_sales",
+          "comment": null
+        },
+        "yoy_growth_pct": {
+          "type": "numeric",
+          "index": 4,
+          "name": "yoy_growth_pct",
+          "comment": null
+        }
+      },
+      "stats": {
+        "has_stats": {
+          "id": "has_stats",
+          "label": "Has Stats?",
+          "value": false,
+          "include": false,
+          "description": "Indicates whether there are statistics for this table"
+        }
+      },
+      "unique_id": "model.vs_demo_walmart.year_over_year_growth"
+    },
+    "model.vs_demo_walmart.yearly_store_sales": {
+      "metadata": {
+        "type": "BASE TABLE",
+        "schema": "public",
+        "name": "yearly_store_sales",
+        "database": "test",
+        "comment": null,
+        "owner": "root"
+      },
+      "columns": {
+        "sale_year": {
+          "type": "date",
+          "index": 1,
+          "name": "sale_year",
+          "comment": null
+        },
+        "yearly_total_sales": {
+          "type": "numeric",
+          "index": 2,
+          "name": "yearly_total_sales",
+          "comment": null
+        },
+        "yoy_growth_pct": {
+          "type": "numeric",
+          "index": 3,
+          "name": "yoy_growth_pct",
+          "comment": null
+        }
+      },
+      "stats": {
+        "has_stats": {
+          "id": "has_stats",
+          "label": "Has Stats?",
+          "value": false,
+          "include": false,
+          "description": "Indicates whether there are statistics for this table"
+        }
+      },
+      "unique_id": "model.vs_demo_walmart.yearly_store_sales"
+    },
+    "model.vs_demo_walmart.ytd_cumulative_sales": {
+      "metadata": {
+        "type": "VIEW",
+        "schema": "public",
+        "name": "ytd_cumulative_sales",
+        "database": "test",
+        "comment": null,
+        "owner": "root"
+      },
+      "columns": {
+        "store": {
+          "type": "integer",
+          "index": 1,
+          "name": "store",
+          "comment": null
+        },
+        "sale_month": {
+          "type": "timestamp with time zone",
+          "index": 2,
+          "name": "sale_month",
+          "comment": null
+        },
+        "monthly_total_sales": {
+          "type": "double precision",
+          "index": 3,
+          "name": "monthly_total_sales",
+          "comment": null
+        },
+        "ytd_sales": {
+          "type": "double precision",
+          "index": 4,
+          "name": "ytd_sales",
+          "comment": null
+        }
+      },
+      "stats": {
+        "has_stats": {
+          "id": "has_stats",
+          "label": "Has Stats?",
+          "value": false,
+          "include": false,
+          "description": "Indicates whether there are statistics for this table"
+        }
+      },
+      "unique_id": "model.vs_demo_walmart.ytd_cumulative_sales"
+    }
+  },
+  "sources": {},
+  "errors": null
+}

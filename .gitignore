@@ -8,3 +8,8 @@ wheels/
 
 # Virtual environments
 .venv
+
+#Api logs
+demo_walmart/api/api.log
+
+.env

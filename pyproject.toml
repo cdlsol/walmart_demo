@@ -5,8 +5,12 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "dbt-core>=1.10.9",
+    "dbt-core==1.9.0",
     "dbt-postgres>=1.9.0",
+    "dotenv>=0.9.9",
+    "fastapi[standard]>=0.116.1",
+    "langchain-community>=0.3.29",
+    "langchain[openai]>=0.3.27",
     "pandas>=2.3.1",
     "psycopg2-binary>=2.9.10",
 ]

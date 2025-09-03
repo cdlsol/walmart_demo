@@ -1,0 +1,22 @@
+semantic_models:
+  - name: monthly_sales
+    description: Monthly sales data aggregated at the store level.
+    model: ref('monthly_store_sales')
+    entities:
+      - name: store
+        type: primary
+    dimensions:
+      - name: sale_month
+        type: time
+        type_params:
+          time_granularity: month
+        description: Month of the sales data.
+    measures:
+      - name: monthly_total_sales
+        description: Total sales for the month.
+        agg: sum
+        expr: weekly_sales
+      - name: mom_growth_pct
+        description: Month-over-month growth percentage.
+        agg: average
+        expr: mom_growth_pct_column
