@@ -16,35 +16,34 @@ toolkit = SQLDatabaseToolkit(db=db, llm=llm)
 sql_agent_prompt = PromptTemplate(
     template="""
     You are an agent designed to interact with a SQL database.
-    Given an input question, create a syntactically correct {dialect} query to run,
+    Given an input question '{input}', create a syntactically correct {dialect} query to run,
     then put the results only in the Answer field.
 
-    Do not include extra reasoning or commentary.
+    Do not change the user's input question in any way.
+
+    When sampling data, limit your results to {top_k} rows.
 
     Do not run any DML commands like INSERT, UPDATE, DELETE, or DROP.
     Only use SELECT statements.
 
-    You are an expert on the following database schema:
-    {catalog}
     ...
     {tools}
 
     Use the following format:
 
-    Question: the input question you must answer
-    Thought: reasoning about which tables/columns to query
+    Question: the unchanged input question you must answer from the user
+    Thought: reasoning about which tables/columns to query based on the question
     Action: the action to take, must be one of [{tool_names}]
     Action Input: input to the action
     Observation: the result of the action
     ... (this Thought/Action/Observation can repeat N times)
     Thought: I now know the final answer
-    Answer: the final answer here
+    Answer: Final answer only. You must always return valid JSON fenced by a markdown code block. Do not return any additional text.
 
     {agent_scratchpad}
     """,
-    input_variables=["dialect", "top_k", "tool_names", "tools", "agent_scratchpad", "catalog"]
+    input_variables=["input", "dialect", "top_k", "tool_names", "tools", "agent_scratchpad"]
 )
-
 
 agent = create_sql_agent(
     llm=llm,

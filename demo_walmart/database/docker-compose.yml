@@ -1,6 +1,6 @@
 services:
   testdb:
-    image: postgres:13
+    image: postgres:17
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
