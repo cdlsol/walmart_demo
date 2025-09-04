@@ -1,11 +1,10 @@
 from fastapi import FastAPI
 import logging
-from llm import agent
+from llm import agent, db
 from langchain.output_parsers import StructuredOutputParser
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import sys
-import json
 
 load_dotenv()
 
@@ -34,20 +33,21 @@ def question_endpoint(request: QuestionRequest):
     question = request.question
     try:
         logger.info(f"Received question: {question}")
+        
+        # Get table information for the prompt
+        table_info = db.get_table_info()
+        
         response = agent.invoke({
             "input": question,
-            # "catalog": catalog_escaped,
-            "tool_names": "sql_db",
+            "tool_names": "sql_db_list_tables, sql_db_schema, sql_db_query",
             "dialect": "postgresql",
             "agent_scratchpad": "",
-            "top_k": 10
+            "top_k": 10,
+            "table_info": table_info
         })
-        try:
-            answer = response["output"]
-            # answer_json = json.loads(response["Answer"])
-        except json.JSONDecodeError:
-            answer_json = {"raw": response}
-        return answer
+        
+        return {"answer": response["output"]}
+        
     except Exception as e:
         logger.error(f"Error processing question: {e}")
         return {"error": str(e)}
