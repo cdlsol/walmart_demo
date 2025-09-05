@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 import logging
-from llm import agent, db
-from langchain.output_parsers import StructuredOutputParser
+from llm import chain, db
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import sys
@@ -16,7 +15,7 @@ logger.handlers[:] = [handler]   # replace any existing handlers
 
 with open("static/semantic_manifest.json") as f:
     semantic_layer = f.read()
-# Escape curly braces so PromptTemplate doesn't interpret them
+# Escape curly braces
 semantic_layer_escaped = semantic_layer.replace("{", "{{").replace("}", "}}")
 
 app = FastAPI()
@@ -37,7 +36,7 @@ def question_endpoint(request: QuestionRequest):
         # Get table information for the prompt
         table_info = db.get_table_info()
         
-        response = agent.invoke({
+        response = chain.invoke({
             "input": question,
             "tool_names": "sql_db_list_tables, sql_db_schema, sql_db_query",
             "dialect": "postgresql",
@@ -46,7 +45,7 @@ def question_endpoint(request: QuestionRequest):
             "table_info": table_info,
             "semantic_layer": semantic_layer_escaped
         })
-        
+
         return {"answer": response["output"]}
         
     except Exception as e:
