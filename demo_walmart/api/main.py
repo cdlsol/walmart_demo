@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 import logging
-from llm import chain, db
+from llm import agent, db
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import sys
@@ -36,7 +36,7 @@ def question_endpoint(request: QuestionRequest):
         # Get table information for the prompt
         table_info = db.get_table_info()
         
-        response = chain.invoke({
+        response = agent.invoke({
             "input": question,
             "tool_names": "sql_db_list_tables, sql_db_schema, sql_db_query",
             "dialect": "postgresql",
