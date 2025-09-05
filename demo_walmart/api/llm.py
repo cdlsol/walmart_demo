@@ -13,20 +13,27 @@ from langchain.prompts import PromptTemplate
 load_dotenv()
 
 db = SQLDatabase(engine)
-llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
+llm = ChatOpenAI(temperature=0, model_name="gpt-4o")
 toolkit = SQLDatabaseToolkit(db=db, llm=llm)
 
 sql_agent_prompt = PromptTemplate(
     template="""
     You are an agent designed to interact with a SQL database.
     Given an input question '{input}', create a syntactically correct {dialect} query to run,
-    then put the results only in the Answer field.Unless the user specifies in his question a
+    then put the results only in the Answer field. Unless the user specifies in his question a
     specific number of examples they wish to obtain, always limit your query to
     at most {top_k} results. You can order the results by a relevant column to
     return the most interesting examples in the database.
 
+    You can check the database schema for available tables and columns and you can also
+    check the semantic layer: {semantic_layer} for more information about the data and how to calculate certain metrics.
+    If you cannot find the information you need in the semantic layer for a specific metric based on a
+    column, then you can use the column directly.  
+
     Do not run any DML commands like INSERT, UPDATE, DELETE, or DROP.
     Only use SELECT statements.
+
+    Do not include markdown syntax when executing a query.
 
     Pay attention to use only the column names that you can see in the schema
     description. Be careful to not query for columns that do not exist. Also,
@@ -47,7 +54,7 @@ sql_agent_prompt = PromptTemplate(
 
     {agent_scratchpad}
     """,
-    input_variables=["input", "dialect", "top_k", "tool_names", "tools", "agent_scratchpad"]
+    input_variables=["input", "dialect", "top_k", "tool_names", "tools", "agent_scratchpad", "semantic_layer"]
 )
 
 agent_executor = create_sql_agent(

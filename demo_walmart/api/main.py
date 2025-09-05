@@ -14,10 +14,10 @@ handler = logging.StreamHandler(sys.stdout)
 handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
 logger.handlers[:] = [handler]   # replace any existing handlers
 
-# with open("static/catalog.json") as f:
-#     catalog = f.read()
+with open("static/semantic_manifest.json") as f:
+    semantic_layer = f.read()
 # Escape curly braces so PromptTemplate doesn't interpret them
-# catalog_escaped = catalog.replace("{", "{{").replace("}", "}}")
+semantic_layer_escaped = semantic_layer.replace("{", "{{").replace("}", "}}")
 
 app = FastAPI()
 
@@ -43,7 +43,8 @@ def question_endpoint(request: QuestionRequest):
             "dialect": "postgresql",
             "agent_scratchpad": "",
             "top_k": 10,
-            "table_info": table_info
+            "table_info": table_info,
+            "semantic_layer": semantic_layer_escaped
         })
         
         return {"answer": response["output"]}

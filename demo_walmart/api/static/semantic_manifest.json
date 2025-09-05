@@ -1,0 +1,91 @@
+{
+  "semantic_models": [
+    {
+      "name": "monthly_sales",
+      "defaults": null,
+      "description": "Monthly sales data aggregated at the store level.",
+      "node_relation": {
+        "alias": "monthly_store_sales",
+        "schema_name": "public",
+        "database": "test",
+        "relation_name": "\"test\".\"public\".\"monthly_store_sales\""
+      },
+      "primary_entity": null,
+      "entities": [
+        {
+          "name": "store",
+          "description": null,
+          "type": "primary",
+          "role": null,
+          "expr": null,
+          "metadata": null,
+          "label": null
+        }
+      ],
+      "measures": [
+        {
+          "name": "monthly_total_sales",
+          "agg": "sum",
+          "description": "Total sales for the month.",
+          "create_metric": false,
+          "expr": "weekly_sales",
+          "agg_params": null,
+          "metadata": null,
+          "non_additive_dimension": null,
+          "agg_time_dimension": null,
+          "label": null
+        },
+        {
+          "name": "mom_growth_pct",
+          "agg": "average",
+          "description": "Month-over-month growth percentage.",
+          "create_metric": false,
+          "expr": "mom_growth_pct_column",
+          "agg_params": null,
+          "metadata": null,
+          "non_additive_dimension": null,
+          "agg_time_dimension": null,
+          "label": null
+        }
+      ],
+      "dimensions": [
+        {
+          "name": "sale_month",
+          "description": "Month of the sales data.",
+          "type": "time",
+          "is_partition": false,
+          "type_params": {
+            "time_granularity": "month",
+            "validity_params": null
+          },
+          "expr": null,
+          "metadata": null,
+          "label": null
+        }
+      ],
+      "label": null,
+      "metadata": null,
+      "config": {
+        "meta": {}
+      }
+    }
+  ],
+  "metrics": [],
+  "project_configuration": {
+    "time_spine_table_configurations": [
+      {
+        "location": "\"test\".\"public\".\"metricflow_time_spine\"",
+        "column_name": "date_day",
+        "grain": "day"
+      }
+    ],
+    "metadata": null,
+    "dsi_package_version": {
+      "major_version": "0",
+      "minor_version": "7",
+      "patch_version": "5"
+    },
+    "time_spines": []
+  },
+  "saved_queries": []
+}

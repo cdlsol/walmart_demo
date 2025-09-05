@@ -1,7 +1,6 @@
 import streamlit as st
 import requests
 import base64
-import time
 
 with open("static/swan_profile.png", "rb") as f:
     swan_avatar = f"data:image/png;base64,{base64.b64encode(f.read()).decode('utf-8')}"
@@ -16,12 +15,13 @@ st.markdown(
         <h2 style="margin-top: 0;">💬 Swanalytics Chatbot</h2>
     </div>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
 
+# Display history
 for msg in st.session_state.messages:
     if msg["role"] == "assistant":
         st.chat_message("assistant", avatar=swan_avatar).write(msg["content"])
@@ -29,22 +29,20 @@ for msg in st.session_state.messages:
         st.chat_message("user", avatar="👤").write(msg["content"])
 
 if prompt := st.chat_input():
-
+    # Add user message
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user", avatar="👤").write(prompt)
 
-    # Placeholder for "Thinking..."
+    # Show "Thinking..." placeholder
     placeholder = st.chat_message("assistant", avatar=swan_avatar)
-    thinking_msg = placeholder.container()
-    thinking_text = thinking_msg.empty()
-    thinking_text.markdown("Thinking...")
+    with placeholder:
+        thinking_text = st.empty()
+        thinking_text.write("Thinking...")
 
     walmart_api = "http://localhost:8080/question"
-    payload = {
-        "question": prompt
-    }
+    payload = {"question": prompt}
 
-    # Call llm api
+    # Call LLM API
     try:
         response = requests.post(walmart_api, json=payload)
         response.raise_for_status()
@@ -52,7 +50,6 @@ if prompt := st.chat_input():
     except Exception as e:
         msg = f"Sorry, something went wrong: {e}"
 
-    # Replace "Thinking..." with actual response
-    thinking_text.markdown(msg)
+    # Replace "Thinking..." with final answer
+    thinking_text.write(msg)
     st.session_state.messages.append({"role": "assistant", "content": msg})
-    st.chat_message("assistant", avatar=swan_avatar).write(msg)
